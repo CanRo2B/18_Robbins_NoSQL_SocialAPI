@@ -6,11 +6,11 @@ const dateFormat = require("../utils/dateformat");
 // Create new schema that will have table columns and export 
 const thoughtSchema = new Schema(
 {
-    thoughtPost: {
+    thoughtText: {
         type: String,
         required: "Please leave a thought",
         minlength: 1,
-        maxlength: 300
+        maxlength: 280
 
     },
     createdAt: {
@@ -32,10 +32,10 @@ const thoughtSchema = new Schema(
         id: false
     }
 )
-// thoughtSchema not included in start up
+// Returning thoughts reactions array on query
 thoughtSchema.virtual("reactionCount").get(function() {
-
-})
+    return this.reaction.length;
+});
 
 // Create a model
 const Thought = model("Thought", thoughtSchema);

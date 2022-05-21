@@ -14,8 +14,8 @@ const userController = {
     getUsers(req, res) {
         User.find()
         .select("-_v")
-        .then((dbUserData) => {
-            res.json(dbUserData);
+        .then((user) => {
+            res.json(user);
         })
         .catch((err) => {
             console.log(err);
@@ -28,11 +28,11 @@ const userController = {
         .select("-_v")
         .populate("friends")
         .populate("thoughts")
-        .then((dbUserData) => {
-            if(!dbUserData) {
+        .then((user) => {
+            if(!user) {
                 return res.status(404).json({ message: "No user with this id"});
             }
-            res.json(dbUserData);
+            res.json(user);
         })
         .catch((err) => {
             console.log(err);
@@ -43,9 +43,8 @@ const userController = {
     // Create a new user
     createUser(req,res) {
         User.create(req.body)
-        .then((dbUserData) => {
-            
-        })
+        .then((user) => res.json(user))
+        .catch((err) => res.status(500).json(err));
     },
 
 // Update User
@@ -54,7 +53,7 @@ const userController = {
         console.log(req.body);
         User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { thoughts: req.body } },
+        { $addToSet: { user: req.body } },
         { runValidators: true, new: true }
         )
             .then((user) =>

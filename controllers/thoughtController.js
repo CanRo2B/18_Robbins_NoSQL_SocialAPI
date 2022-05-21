@@ -1,4 +1,4 @@
-const { application } = require("express");
+const { thoughts } = require("express");
 const { Thought, User } = require("../models");
 
 // Create CRUD 
@@ -7,8 +7,8 @@ const thoughtController = {
     getThoughts(req, res) {
         Thought.find()
         .select("_v")
-        .then((dbthoughtData) => {
-            res.json(dbthoughtData);
+        .then((thoughts) => {
+            res.json(thoughts);
         })
         .catch((err) => {
             console.log(err);
@@ -22,11 +22,11 @@ const thoughtController = {
         .select("-_v")
         .populate("friends")
         .populate("thoughts")
-        .then((dbthoughtData) => {
-            if(!dbthoughtData) {
+        .then((thoughts) => {
+            if(!thoughts) {
                 return res.status(404).json({ message: "No thoughts"});
             }
-            res.json(dbthoughtData);
+            res.json(thoughts);
         })
         .catch((err) => {
             console.log(err);
@@ -37,9 +37,23 @@ const thoughtController = {
     // create a thought
     createThought(req, res) {
         Thought.create(req.body)
-        .then((dbthoughtData) =>{
-            
+        .then((thoughts) => {
+            return User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $addToSet: {thoughts: thoughts._id} },
+                {new: true }
+            );
         })
+        then((user) => 
+            !user
+                ? res.status(404).json({ message: "Thought created but not known user is found"
+                })
+                : res.json("Thought created")
+            )
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).json(err);
+                });
     },
 
     // update a thought
@@ -51,10 +65,10 @@ const thoughtController = {
             { $addToSet: { user: req.body } },
             {runValidators: true, new: true }
         )
-        .then((thought) => 
-        !thought    
+        .then((thoughts) => 
+        !thoughts 
             ? res.status(404).json({ message: "no thought found"})
-            : res.json(thought)
+            : res.json(thoughts)
             )
             .catch((err) => res.status(500).json(err));
     },
@@ -62,12 +76,12 @@ const thoughtController = {
     // delete a thought
     deleteThought(req, res) {
         Thought.findOneAndRemove({ _id: req.params.thoughtId})
-        .then((thought) => 
-        !thought 
+        .then((thoughts) => 
+        !thoughts
         ? res.status(404).json({ message: "No known thought"})
             : User.findOneAndUpdate(
-                { thought: req.params.thoughtId },
-                { $pull: { thought: req.params.thoughtId }},
+                { thoughts: req.params.thoughtId },
+                { $pull: { thoughts: req.params.thoughtId }},
                 {new: true}
                 )
             )
@@ -86,10 +100,10 @@ const thoughtController = {
             { $addToSet: { reaction: req.body }}, 
             { runValidators: true, new: true }
         )
-        .then((application) => 
-        !application
+        .then((thoughts) => 
+        !thoughts
             ? res.status(404).json({ message: "No thought with this id"})
-            : res. json(thought)
+            : res. json(thoughts)
             )
             .catch((err) => res.status(500).json(err));
     },
@@ -101,14 +115,13 @@ const thoughtController = {
             { $pull: { reaction: {reactionId: req.params.reactionId }}},
             {runValidators: true, new: true }
         )
-        .then((thought) => 
-        !application    
+        .then((thoughts) => 
+        !thoughts    
             ? res.status(404).json({ message: "No thought with this reaction"})
-            : res.json(thought)
+            : res.json(thoughts)
             )
             .catch((err) => res.status(500).json(err));
     },
-
 };
 
-module.export = thoughtController;
+module.exports = thoughtController;
