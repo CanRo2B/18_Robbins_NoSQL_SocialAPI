@@ -63,6 +63,8 @@ const thoughtController = {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $addToSet: { user: req.body } },
+            // From Module 25 if above doees not work, try below
+            // { $set: req.body },
             {runValidators: true, new: true }
         )
         .then((thoughts) => 
