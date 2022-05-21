@@ -71,13 +71,14 @@ const userController = {
     deleteUser(req, res) {
         User.findOneAndRemove({ _id: req.params.userId})
         .then((user) => 
-        !user? res.status(404).json({ message: "No known User"})
-            : Thought.findOneandUpdate(
-            {user: req.params.userId},
-            {$pull: { user: req.params.userId}},
-            {new: true }
+        !user
+            ? res.status(404).json({ message: "No known User"})
+                : Thought.findOneandUpdate(
+                {user: req.params.userId},
+                {$pull: { user: req.params.userId}},
+                {new: true }
+                )
             )
-        )
         .then((thought) =>
         !thought? res.status(404).json({
             message: "User deleted, no thoughts found"
