@@ -1,0 +1,26 @@
+{
+  "name": "18_robbins_nosql_socialapi",
+  "version": "1.0.0",
+  "description": "Unit 18 NoSQL, Social Network API Challenge used with Insomnia",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CanRo2B/18_Robbins_NoSQL_SocialAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CanRo2B/18_Robbins_NoSQL_SocialAPI/issues"
+  },
+  "homepage": "https://github.com/CanRo2B/18_Robbins_NoSQL_SocialAPI#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.3.4"
+  }
+  
+}
+

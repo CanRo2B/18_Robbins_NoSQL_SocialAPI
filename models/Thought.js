@@ -7,11 +7,23 @@ const dateFormat = require("../utils/dateformat");
 const thoughtSchema = new Schema(
 {
     thoughtPost: {
+        type: String,
+        required: "Please leave a thought",
+        minlength: 1,
+        maxlength: 300
 
     },
     createdAt: {
+        type: Date,
+        default: Date.now,
         get: timestamp => dateFormat(timestamp)
     },
+    // username and reactions was not included in Veronica's startup
+    username: {
+        type: String,
+        required: true
+    },
+    reactions: [reactionSchema]
 },
     {
         toJSON: {
@@ -20,6 +32,11 @@ const thoughtSchema = new Schema(
         id: false
     }
 )
+// thoughtSchema not included in start up
+thoughtSchema.virtual("reactionCount").get(function() {
+
+})
+
 // Create a model
 const Thought = model("Thought", thoughtSchema);
 

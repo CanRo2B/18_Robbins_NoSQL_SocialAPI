@@ -1,15 +1,27 @@
 // Require packages
-const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction");
+const { Schema, Types } = require("mongoose");
+const { ObjectId } = require('mongoose').Types;
+// const reactionSchema = require("./Reaction");
 const dateFormat = require("../utils/dateformat");
 
 // Create new schema that will have table columns and export 
-const thoughtSchema = new Schema(
+const reactionSchema = new Schema(
 {
-    thoughtPost: {
-
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
+    },
+    reactionPost: {
+        type: String,
+    },
+    // Username was not in startup
+    username: {
+        type: String,
+        required: true
     },
     createdAt: {
+        type: Date,
+        default: Date.now,
         get: timestamp => dateFormat(timestamp)
     },
 },
@@ -21,7 +33,7 @@ const thoughtSchema = new Schema(
     }
 )
 // Create a model
-const Thought = model("Thought", thoughtSchema);
+// const Reaction = model("Reaction", reactionSchema);
 
 // Reference the reaction schema
-module.exports = Thought;
+module.exports = reactionSchema;

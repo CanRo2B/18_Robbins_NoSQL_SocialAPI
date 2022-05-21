@@ -13,6 +13,7 @@ const userSchema = new Schema(
             required: true,
             unique: true,
             // Maybe look up regex, must be an email address
+            //match: [/.+@.+\..+/, "Check to match email address"]
         },
         thoughts: [
             {
@@ -34,6 +35,11 @@ const userSchema = new Schema(
         id: false,
     }
 )
+
+// Not in startup
+userSchema.virtual("friendCount").get(function(){
+    return this.friends.length;
+});
 
 const User = model("User", userSchema);
 
