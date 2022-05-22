@@ -8,7 +8,7 @@ const thoughtSchema = new Schema(
 {
     thoughtText: {
         type: String,
-        required: "Please leave a thought",
+        required: true,
         minlength: 1,
         maxlength: 280
 
@@ -16,7 +16,8 @@ const thoughtSchema = new Schema(
     createdAt: {
         type: Date,
         default: Date.now,
-        get: timestamp => dateFormat(timestamp)
+        
+        // get: timestamp => dateFormat(timestamp)
     },
     // username and reactions was not included in Veronica's startup
     username: {
@@ -33,9 +34,9 @@ const thoughtSchema = new Schema(
     }
 )
 // Returning thoughts reactions array on query
-thoughtSchema.virtual("reactionCount").get(function() {
-    return this.reaction.length;
-});
+// thoughtSchema.virtual("reactionCount").get(function() {
+//     return this.reaction.length;
+// });
 
 // Create a model
 const Thought = model("Thought", thoughtSchema);
