@@ -6,13 +6,13 @@ const thoughtController = {
     // get all thoughts
     getThoughts(req, res) {
         Thought.find()
-        .select("_v")
-        .then((thoughts) => 
-            res.json(thoughts)
-        )
-        .catch((err) => 
-            res.status(500).json(err)
-        );
+        .select("-_v")
+        .then((thoughts) => {
+            res.json(thoughts);
+         })
+        .catch((err) => {
+            res.status(500).json(err);
+    });
     },
 
     // get a single thought :id

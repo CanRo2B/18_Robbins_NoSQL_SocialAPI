@@ -53,7 +53,7 @@ const userController = {
         console.log(req.body);
         User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { user: req.body } },
+        { $Set: { user: req.body } },
         { runValidators: true, new: true }
         )
             .then((user) =>
