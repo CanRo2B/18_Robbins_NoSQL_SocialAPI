@@ -96,7 +96,7 @@ const userController = {
         console.log(req.body);
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: {friends: req.body } },
+            { $addToSet: { friends: req.params.friendId } },
             {runValidators: true, new: true }
         )
         .then((user) => 
@@ -108,9 +108,9 @@ const userController = {
 
     // Remove friend from user
     removeFriend(req, res) {
-        User.findOneandUpdate(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: { friend: { friendId: req.params.friendId } } },
+            { $pull: { friends: { $in: req.params.friendId } } },
             {runValidators: true, new: true }
         )
         .then((user) => 
