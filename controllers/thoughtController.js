@@ -27,9 +27,9 @@ const thoughtController = {
     // get a single thought :id
     getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
+        // .populate("thoughts")
         .select("-__v")
         // .populate("friends")
-        // .populate("thoughts")
         .then((thoughts) => {
             if(!thoughts) {
                 return res.status(404).json({ message: "No thoughts"});
@@ -108,6 +108,7 @@ const thoughtController = {
             { _id: req.params.thoughtId },
             { $addToSet: { reaction: req.body }}, 
             { runValidators: true, new: true }
+            // .populate("reactions")
         )
         .then((thoughts) => 
         !thoughts

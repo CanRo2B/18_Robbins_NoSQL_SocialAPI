@@ -15,8 +15,7 @@ const thoughtSchema = new Schema(
     },
     createdAt: {
         type: Date,
-        default: Date.now,
-        
+        default: Date.now
         // get: timestamp => dateFormat(timestamp)
     },
     // username and reactions was not included in Veronica's startup
