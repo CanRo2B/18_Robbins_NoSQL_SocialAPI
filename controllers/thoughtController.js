@@ -27,7 +27,7 @@ const thoughtController = {
     // get a single thought :id
     getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
-        .populate("thoughts")
+        // .populate("thoughts")
         .select("-__v")
         // .populate("friends")
         .then((thoughts) => {
