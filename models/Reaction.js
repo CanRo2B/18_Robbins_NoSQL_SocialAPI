@@ -1,7 +1,7 @@
 // Require packages
 const { Schema, Types } = require("mongoose");
-//  const reactionSchema = require("./Reaction");
-// const dateFormat = require("../utils/dateformat");
+// const reactionSchema = require("./Reaction");
+const dateFormat = require("../utils/dateFormat");
 
 // const timeStamp = new Date();
 // let dateFormat = timeStamp.toLocaleString();
@@ -26,7 +26,7 @@ const reactionSchema = new Schema(
     createdAt: {
         type: Date,
         default: Date.now,
-        // get: timestamp => dateFormat(timestamp)
+        // get: dateFormat
     },
 },
     {
@@ -36,8 +36,6 @@ const reactionSchema = new Schema(
         id: false
     }
 )
-// Create a model
-// const Reaction = model("Reaction", reactionSchema);
 
 // Reference the reaction schema
 module.exports = reactionSchema;

@@ -27,7 +27,7 @@ const thoughtController = {
     // get a single thought :id
     getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
-        // .populate("thoughts")
+        .populate("thoughts")
         .select("-__v")
         // .populate("friends")
         .then((thoughts) => {
@@ -106,9 +106,9 @@ const thoughtController = {
     addReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $addToSet: { reaction: req.body }}, 
+            { $addToSet: { reactions: req.body }}, 
             { runValidators: true, new: true }
-            // .populate("reactions")
+            // .populate("reactionBody")
         )
         .then((thoughts) => 
         !thoughts
@@ -122,7 +122,7 @@ const thoughtController = {
     removeReaction(req, res) {
         Thought.findByIdAndUpdate(
             { _id: req.params.thoughtId },
-            { $pull: { reaction: {reactionId: req.params.reactionId }}},
+            { $pull: { reactions: {reactionId: req.params.reactionId }}},
             {runValidators: true, new: true }
         )
         .then((thoughts) => 

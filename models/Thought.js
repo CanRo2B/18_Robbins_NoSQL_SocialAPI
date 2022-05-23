@@ -1,7 +1,7 @@
 // Require packages
 const { Schema, model } = require("mongoose");
 const reactionSchema = require("./Reaction");
-const dateFormat = require("../utils/dateformat");
+const dateFormat = require("../utils/dateFormat");
 
 // Create new schema that will have table columns and export 
 const thoughtSchema = new Schema(
@@ -15,10 +15,10 @@ const thoughtSchema = new Schema(
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        // get: date => dateFormat(date)
         // get: timestamp => dateFormat(timestamp)
     },
-    // username and reactions was not included in Veronica's startup
     username: {
         type: String,
         required: true
@@ -27,18 +27,19 @@ const thoughtSchema = new Schema(
 },
     {
         toJSON: {
-            getters: true
+            getters: true,
+            virtuals: true
         },
         id: false
     }
 )
 // Returning thoughts reactions array on query
-// thoughtSchema.virtual("reactionCount").get(function() {
-//     return this.reaction.length;
-// });
+thoughtSchema.virtual("reactionCount").get(function() {
+    return this.reactions.length;
+});
 
 // Create a model
-const Thought = model("Thought", thoughtSchema);
+const Thought = model("thought", thoughtSchema);
 
 // Reference the reaction schema
 module.exports = Thought;
