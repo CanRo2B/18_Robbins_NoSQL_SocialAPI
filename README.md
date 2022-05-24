@@ -8,7 +8,6 @@ Using the NoSQL challenge, helps users create a database with express and mongoo
 ## Table of Contents
 - [Utilize the Challenge](#utilize-the-challenge)
 - [Screenshot](#screenshot)
-- [Run the Program](#run-the-program)
 - [Video Walkthrough](#video-walkthrough)
 - [Acknowledgements](#acknowledgements)
 - [Contact Me](#contact-me)
