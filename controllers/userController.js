@@ -2,13 +2,6 @@ const { User, Thought } = require("../models");
 
 const userController = {
 // Create CRUD Commands
-// getUsers,
-    // getSingleUser,
-    // createUser,
-    // updateUser,
-    // deleteUser,
-    // addFriends,
-    // removeFriend,
 
 // get All users
     getUsers(req, res) {
@@ -71,19 +64,18 @@ const userController = {
         User.findOneAndRemove({ _id: req.params.userId})
         .then((user) => 
         !user
-            ? res.status(404).json({ message: "No known User"})
-                : Thought.findOneandUpdate(
-                {user: req.params.userId},
-                {$pull: { user: req.params.userId}},
-                {new: true }
+            ? res.status(404).json({ message: "No known User"})  
+            : Thought.findOneAndUpdate(
+                { user: req.params.userId },
+                { $pull: { user: req.params.userId }},
+                { new: true }
                 )
             )
         .then((thought) =>
-        !thought? res.status(404).json({
-            message: "User deleted, no thoughts found"
-        })
-        : res.json({ message: "User deleted"})
-        )
+        !thought
+            ? res.status(404).json({ message: "User deleted, no thoughts found"})
+            : res.json({ message: "User deleted"})
+            )
         .catch((err) => {
             console.log(err);
         res.status(500).json(err);
